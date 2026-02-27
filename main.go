@@ -144,8 +144,7 @@ func (m model) updateNormal(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	}
 	switch msg.String() {
 	case "q", "ctrl+c":
-		m.store.StopAll()
-		m.store.Save()
+		m.store.SaveForBackground()
 		return m, tea.Quit
 
 

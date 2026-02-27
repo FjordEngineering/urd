@@ -52,6 +52,13 @@ func LoadStore(path string) (*Store, error) {
 	if err := s.validate(); err != nil {
 		return nil, err
 	}
+	// Safety fallback: if a stream is active but has no StartedAt, fix it.
+	now := time.Now()
+	for i := range s.Streams {
+		if s.Streams[i].Active && s.Streams[i].StartedAt == nil {
+			s.Streams[i].StartedAt = &now
+		}
+	}
 	return s, nil
 }
 
@@ -199,6 +206,17 @@ func (s *Store) flushStream(st *Stream) {
 	if st.StartedAt != nil {
 		st.Seconds += int64(time.Since(*st.StartedAt).Seconds())
 	}
+}
+
+func (s *Store) SaveForBackground() error {
+	now := time.Now()
+	for i := range s.Streams {
+		if s.Streams[i].Active {
+			s.flushStream(&s.Streams[i])
+			s.Streams[i].StartedAt = &now
+		}
+	}
+	return s.Save()
 }
 
 func (s *Store) HasActive() bool {

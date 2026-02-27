@@ -7,13 +7,13 @@ Define work streams, activate one or more simultaneously, and see live timers ti
 ## Install
 
 ```
-go install github.com/nshern/urd@latest
+go install github.com/FjordEngineering/urd@latest
 ```
 
 Or clone and build:
 
 ```
-git clone https://github.com/nshern/urd.git
+git clone https://github.com/FjordEngineering/urd.git
 cd urd
 go build .
 ```

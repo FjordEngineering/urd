@@ -1,4 +1,4 @@
-module github.com/nshern/urd
+module github.com/FjordEngineering/urd
 
 go 1.25.0
 
